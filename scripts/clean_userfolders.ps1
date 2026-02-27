@@ -4,8 +4,8 @@ Remove-Item -Path "C:\Users\$env:USERNAME\3D Objects\*" -Recurse -Force -ErrorAc
 Write-Host "Cleaning up Contacts" -ForegroundColor Cyan
 Remove-Item -Path "C:\Users\$env:USERNAME\Contacts\*" -Recurse -Force -ErrorAction SilentlyContinue
 
-Write-Host "Cleaning up Desktop" -ForegroundColor Cyan
-Remove-Item -Path "C:\Users\$env:USERNAME\Desktop\*" -Recurse -Force -ErrorAction SilentlyContinue
+#Write-Host "Cleaning up Desktop" -ForegroundColor Cyan
+#Remove-Item -Path "C:\Users\$env:USERNAME\Desktop\*" -Recurse -Force -ErrorAction SilentlyContinue
 
 Write-Host "Cleaning up Downloads" -ForegroundColor Cyan
 Remove-Item -Path "C:\Users\$env:USERNAME\Downloads\*" -Recurse -Force -ErrorAction SilentlyContinue
