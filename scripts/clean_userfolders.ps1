@@ -16,6 +16,9 @@ Remove-Item -Path "C:\User\$env:USERNAME\Onedrive\" -Recurse -Force -ErrorAction
 Write-Host "Cleaning up Pictures" -ForegroundColor Cyan
 Remove-Item -Path "C:\User\$env:USERNAME\Pictures\" -Recurse -Force -ErrorAction SilentlyContinue
 
+Write-Host "Cleaning up Music" -ForegroundColor Cyan
+Remove-Item -Path "C:\User\$env:USERNAME\Music\" -Recurse -Force -ErrorAction SilentlyContinue
+
 Write-Host "Cleaning up Saved Games" -ForegroundColor Cyan
 Remove-Item -Path "C:\User\$env:USERNAME\Saved Games\" -Recurse -Force -ErrorAction SilentlyContinue
 
