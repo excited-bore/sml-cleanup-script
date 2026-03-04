@@ -5,7 +5,8 @@ Write-Host "Cleaning up Contacts" -ForegroundColor Cyan
 Remove-Item -Path "C:\Users\$env:USERNAME\Contacts\*" -Recurse -Force -ErrorAction SilentlyContinue
 
 Write-Host "Cleaning up Desktop" -ForegroundColor Cyan
-Remove-Item -Path "C:\Users\$env:USERNAME\Desktop\*" -Recurse -Force -ErrorAction SilentlyContinue
+Get-ChildItem "C:\Users\$env:USERNAME\Desktop\" -Exclude 'Google Chrome.lnk', 'PDF-Xchange Editor.lnk', 'Smartschool.lnk' | Remove-Item -Force -Recurse -ErrorAction SilentlyContinue
+#Remove-Item -Path "C:\Users\$env:USERNAME\Desktop\*" -Recurse -Force -ErrorAction SilentlyContinue
 
 Write-Host "Cleaning up Downloads" -ForegroundColor Cyan
 Remove-Item -Path "C:\Users\$env:USERNAME\Downloads\*" -Recurse -Force -ErrorAction SilentlyContinue
