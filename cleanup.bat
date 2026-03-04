@@ -1,5 +1,10 @@
 @echo off
 
+echo Removing unnecessary packages 
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+"Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\remove_packages.ps1""'"
+pause
+
 echo Disabling Edge's password manager
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
 "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\no_passwords_edge.ps1""'"
