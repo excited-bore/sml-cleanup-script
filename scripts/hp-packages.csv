@@ -1,7 +1,10 @@
 #TYPE Selected.Microsoft.WinGet.Client.Engine.PSObjects.PSInstalledCatalogPackage
 "Name","Id"
+"7-Zip","7zip.7zip"
+"Notepad++","Notepad++.Notepad++"
 "AMD Software","ARP\Machine\X64\AMD Catalyst Install Manager"
 "Mozilla Firefox (en-US)","Mozilla.Firefox"
+"WinCompose","SamHocevar.WinCompose"
 "Microsoft 365 Apps for enterprise","Microsoft.Office"
 "Microsoft 365-apps voor ondernemingen - nl-nl","ARP\Machine\X64\O365ProPlusRetail - nl-nl"
 "PDF-XChange Editor","TrackerSoftware.PDF-XChangeEditor"
