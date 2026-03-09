@@ -10,10 +10,10 @@ Get-ChildItem -Path 'C:\Users\' | Where-Object { $_.Name -notin $excludes } | Fo
     cmd.exe /c rd /s /q $_.FullName 
 }
 
-Write-Host "Cleaning up 3D Objects" -ForegroundColor Cyan
-Get-ChildItem -Path "C:\Users\$env:USERNAME\3D Objects\" | ForEach-Object {
-    cmd.exe /c rd /s /q $_.FullName 
-}
+#Write-Host "Cleaning up 3D Objects" -ForegroundColor Cyan
+#Get-ChildItem -Path "C:\Users\$env:USERNAME\3D Objects\" | ForEach-Object {
+#    cmd.exe /c rd /s /q $_.FullName 
+#}
 
 Write-Host "Cleaning up Contacts" -ForegroundColor Cyan
 Get-ChildItem -Path "C:\Users\$env:USERNAME\Contacts\" | ForEach-Object {
