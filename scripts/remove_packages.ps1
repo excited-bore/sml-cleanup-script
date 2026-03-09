@@ -14,6 +14,7 @@ if ( $manufacturer -eq 'Dell Inc.'){
     
     
 } elseif ( ( $manufacturer -eq 'HP' ) -or ( $manufacturer -eq 'Hewlett-Packard' )){
+    
     Write-Host "HP system detected."
     
     # Now hpsupportassist 
