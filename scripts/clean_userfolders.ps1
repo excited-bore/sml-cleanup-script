@@ -1,3 +1,6 @@
+Write-Host "Removing unknown users from 'C:\Users'" -ForgroundColor Orange
+Get-ChildItem -Path 'C:\Users\' -Exclude 'LaptopSML', 'Public', 'leerlingdbs' | Select -ExpandProperty FullName | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+
 Write-Host "Cleaning up 3D Objects" -ForegroundColor Cyan
 Remove-Item -Path "C:\Users\$env:USERNAME\3D Objects\*" -Recurse -Force -ErrorAction SilentlyContinue
 
