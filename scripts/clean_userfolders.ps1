@@ -36,8 +36,8 @@ Get-ChildItem -Path "C:\Users\$env:USERNAME\Documents\" | ForEach-Object {
     cmd.exe /c rd /s /q $_.FullName 
 }
 
-Write-Host "Cleaning up Favourites" -ForegroundColor Cyan
-Get-ChildItem -Path "C:\Users\$env:USERNAME\Favourites\" | ForEach-Object {
+Write-Host "Cleaning up Favorites" -ForegroundColor Cyan
+Get-ChildItem -Path "C:\Users\$env:USERNAME\Favorites\" | ForEach-Object {
     cmd.exe /c rd /s /q $_.FullName 
 }
 
