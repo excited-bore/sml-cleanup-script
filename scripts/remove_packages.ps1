@@ -25,13 +25,13 @@ if ( $manufacturer -eq 'Dell Inc.'){
 } elseif ( $manufacturer -eq 'LENOVO' ){
     Write-Host "Lenovo system detected. Installing Lenovo Update..."
     
-    .\scripts\lenovoupdate.ps1
+    & "$PSScriptRoot\lenovoupdate.ps1"
     
     # Now lenovo vantage 
     
     Write-Host "Installing Lenovo Vantage..." 
 
-    .\scripts\lenovovantage.ps1
+    & "$PSScriptRoot\lenovovantage.ps1"
 
 } elseif ( $manufacturer -eq "ASUSTeK COMPUTER INC." ) {
     Write-Host "This is an ASUS system."
