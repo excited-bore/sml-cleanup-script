@@ -20,7 +20,7 @@ if ( $manufacturer -eq 'Dell Inc.'){
 
     & "$PSScriptRoot\hpsupportassist.ps1"
 
-    $filePath = ".\hp-packages.csv"
+    $filePath = "$PSScriptRoot\hp-packages.csv"
 
 } elseif ( $manufacturer -eq 'LENOVO' ){
     Write-Host "Lenovo system detected. Installing Lenovo Update..."
@@ -63,3 +63,4 @@ if ( Test-Path -path $filePath){
 	Write-Host "Cant find packages.csv file. Exiting..." -ForegroundColor Yellow
 }
 
+Read-Host "Press Enter to continue"
