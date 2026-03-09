@@ -18,7 +18,7 @@ if ( $manufacturer -eq 'Dell Inc.'){
     
     # Now hpsupportassist 
 
-    .\scripts\hpsupportassist.ps1
+    .\hpsupportassist.ps1
 
     $filePath = ".\scripts\hp-packages.csv"
 
