@@ -10,7 +10,7 @@ if ( $manufacturer -eq 'Dell Inc.'){
     
     Write-Host "Dell System detected. Installing Dell Commandline"
     
-    .\scripts\dellupdate.ps1 
+    & "$PSScriptRoot\dellupdate.ps1" 
     
     
 } elseif ( ( $manufacturer -eq 'HP' ) -or ( $manufacturer -eq 'Hewlett-Packard' )){
@@ -18,7 +18,7 @@ if ( $manufacturer -eq 'Dell Inc.'){
     
     # Now hpsupportassist 
 
-    .\hpsupportassist.ps1
+    & "$PSScriptRoot\hpsupportassist.ps1"
 
     $filePath = ".\scripts\hp-packages.csv"
 
