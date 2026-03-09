@@ -35,7 +35,8 @@ REM Clean Google Chrome data
 powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\clean_chrome.ps1"
 
 REM Empty Userfolders
-powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\clean_userfolders.ps1"
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+"Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\clean_userfolders.ps1""'"
 
 REM Empty Trash
 powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\clean_trash.ps1"
