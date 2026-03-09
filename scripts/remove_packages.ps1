@@ -20,7 +20,7 @@ if ( $manufacturer -eq 'Dell Inc.'){
 
     & "$PSScriptRoot\hpsupportassist.ps1"
 
-    $filePath = ".\scripts\hp-packages.csv"
+    $filePath = ".\hp-packages.csv"
 
 } elseif ( $manufacturer -eq 'LENOVO' ){
     Write-Host "Lenovo system detected. Installing Lenovo Update..."
@@ -44,7 +44,6 @@ if ( $manufacturer -eq 'Dell Inc.'){
 }
 
 $packages = @(Get-WinGetPackage | Select-Object Name, Id)
-$filePath = ".\scripts\hp-packages.csv"
 if ( Test-Path -path $filePath){
 	$packages2 = Import-Csv -Path $filePath
 	foreach ($package in $packages) {
