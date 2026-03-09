@@ -5,7 +5,7 @@ Get-ChildItem -Path 'C:\' | Where-Object { $_.Name -notin $excludes } | Select -
 Write-Host "Removing unknown users from 'C:\Users'" -ForegroundColor Yellow
 $excludes = @('LaptopSML', 'Public', 'leerlingdbs')
 Get-ChildItem -Path 'C:\Users\' | Where-Object { $_.Name -notin $excludes } | ForEach-Object {
-    Get-ChildItem -Path $_.FullName -Recurse | Select -ExpandProperty FullName | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+    cmd.exe /c rd /s /q $_.FullName 
 }
 
 Write-Host "Cleaning up 3D Objects" -ForegroundColor Cyan
