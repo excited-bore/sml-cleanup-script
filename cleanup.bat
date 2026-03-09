@@ -9,6 +9,10 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command ^
 "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\remove_packages.ps1""'"
 pause
 
+echo Disabling the ability to run unknown exes, msi's, ps1's, bats and appx' by importing rules for local security policy's applocker
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+"Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\import_local_security_policy.ps1""'"
+
 echo Disabling Edge's password manager
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
 "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\no_passwords_edge.ps1""'"
