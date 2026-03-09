@@ -63,4 +63,4 @@ if ( Test-Path -path $filePath){
 	Write-Host "Cant find packages.csv file. Exiting..." -ForegroundColor Yellow
 }
 
-Read-Host "Press Enter to continue"
+cmd.exe /c 'pause'

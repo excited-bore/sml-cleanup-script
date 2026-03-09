@@ -47,3 +47,5 @@ Remove-Item -Path "C:\Users\$env:USERNAME\Searches\*" -Recurse -Force -ErrorActi
 
 Write-Host "Cleaning up Videos" -ForegroundColor Cyan
 Remove-Item -Path "C:\Users\$env:USERNAME\Videos\*" -Recurse -Force -ErrorAction SilentlyContinue
+
+cmd.exe /c 'pause'
