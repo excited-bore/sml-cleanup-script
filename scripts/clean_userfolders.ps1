@@ -3,7 +3,9 @@ $excludes = @('PerfLogs', 'Program Files', 'Program Files (x86)', 'Users', 'Wind
 Get-ChildItem -Path 'C:\' | Where-Object { $_.Name -notin $excludes } | Select -ExpandProperty FullName | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
 Write-Host "Removing unknown users from 'C:\Users'" -ForegroundColor Yellow
-Get-ChildItem -Path 'C:\Users\' -Exclude 'LaptopSML', 'Public', 'leerlingdbs' | Select -ExpandProperty FullName | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+$excludes = @('LaptopSML', 'Public', 'leerlingdbs')
+Get-ChildItem -Path 'C:\Users\' | Where-Object { $_.Name -notin $excludes } | ForEach-Object {
+    Get-ChildItem -Path $_.FullName -Recurse | Select -ExpandProperty FullName | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
 Write-Host "Cleaning up 3D Objects" -ForegroundColor Cyan
 Remove-Item -Path "C:\Users\$env:USERNAME\3D Objects\*" -Recurse -Force -ErrorAction SilentlyContinue
