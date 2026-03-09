@@ -1,4 +1,8 @@
-Write-Host "Removing unknown users from 'C:\Users'" -ForgroundColor Orange
+Write-Host "Removing unknown files and folders from 'C:\'" -ForegroundColor Yellow
+$excludes = @('PerfLogs', 'Program Files', 'Program Files (x86)', 'Users', 'Windows')
+Get-ChildItem -Path 'C:\' | Where-Object { $_.Name -notin $excludes } | Select -ExpandProperty FullName | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+
+Write-Host "Removing unknown users from 'C:\Users'" -ForegroundColor Yellow
 Get-ChildItem -Path 'C:\Users\' -Exclude 'LaptopSML', 'Public', 'leerlingdbs' | Select -ExpandProperty FullName | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
 
 Write-Host "Cleaning up 3D Objects" -ForegroundColor Cyan
