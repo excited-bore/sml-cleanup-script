@@ -2,6 +2,16 @@
 Wipe PowerShell (5/7+) and Windows Terminal history
 #>
 
+Write-Host "Clearing Explorer file history..." -ForegroundColor Cyan
+$expHist = Join-Path $env:APPDATA "Microsoft\Windows\Recent"
+$items = Get-ChildItem -Path $expHist
+if ( -not ($items.Count -eq 0)){
+    cmd.exe /c rd /s /q "$expHist/*" 
+    Stop-Process -Name explorer -Force
+    Write-Host "Explorer history cleared."
+}
+
+
 Write-Host "Clearing PowerShell 5 (ConsoleHost) history..." -ForegroundColor Cyan
 $ps5Hist = Join-Path $env:APPDATA "Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt"
 if (Test-Path $ps5Hist) {
