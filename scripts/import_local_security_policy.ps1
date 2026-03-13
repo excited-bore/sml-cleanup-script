@@ -1,1 +1,1 @@
-Set-AppLockerPolicy -XmlPolicy ".\applocker\default_policy.xml"
+Set-AppLockerPolicy -XmlPolicy "$PSScriptRoot\..\applocker\default_policy.xml"
