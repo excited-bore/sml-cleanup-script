@@ -2,7 +2,8 @@ $modules = Get-Module -ListAvailable | Out-String
 $manufacturer = Get-CimInstance -Classname Win32_ComputerSystem | Select-Object -Property Manufacturer -ExpandProperty Manufacturer
 
 if ( -not ( Test-Path -path "C:\Program Files\WindowsPowerShell\Modules\Microsoft.WinGet.Client" )){
-	Install-Package -Force -Name NuGet
+	winget upgrade Microsoft.AppInstaller --source winget
+        Install-Package -Force -Name NuGet
 	Install-Module -Force Microsoft.Winget.Client
 }
 
@@ -21,7 +22,7 @@ if ( $manufacturer -eq 'Dell Inc.'){
 
     & "$PSScriptRoot\hpsupportassist.ps1"
 
-    $filePath = "$PSScriptRoot\hp-packages.csv"
+    $filePath = "$PSScriptRoot\packages-dbs\hp-packages.csv"
 
 } elseif ( $manufacturer -eq 'LENOVO' ){
     Write-Host "Lenovo system detected. Installing Lenovo Update..."
@@ -34,6 +35,8 @@ if ( $manufacturer -eq 'Dell Inc.'){
 
     & "$PSScriptRoot\lenovovantage.ps1"
 
+    $filePath = "$PSScriptRoot\packages-dbs\lenovo-packages.csv"
+
 } elseif ( $manufacturer -eq "ASUSTeK COMPUTER INC." ) {
     Write-Host "This is an ASUS system."
 } elseif ( $manufacturer -eq 'Acer' ) {
@@ -42,6 +45,9 @@ if ( $manufacturer -eq 'Dell Inc.'){
     Write-Host "This is a Gigabyte system."
 } else {
     Write-Host "Unknown system."
+    
+    $filePath = "$PSScriptRoot\packages-dbs\packages-test.csv"
+
 }
 
 $packages = @(Get-WinGetPackage | Select-Object Name, Id)
@@ -56,7 +62,12 @@ if ( Test-Path -path $filePath){
 			Write-Host "Remove it? [Y/n]: " -ForegroundColor Yellow
 			$answer = Read-Host
 			if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
-				winget uninstall --id $package.Id --purge --disable-interactivity --accept-source-agreements
+				try { 
+				     winget uninstall --id $package.Id --purge --disable-interactivity --accept-source-agreements
+				} catch {
+				     # Try with --source winget
+                                     winget uninstall --id $package.Id --source winget --purge --disable-interactivity --accept-source-agreements
+				}
 			}
 		}
 	}
