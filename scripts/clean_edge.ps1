@@ -1,9 +1,9 @@
-#$EdgeRoaming = "$env:APPDATA\Microsoft\Edge\User Data\Default"
-$EdgeLocalCookies = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Cookies"
-$EdgeLocalHistory = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\History"             
-$EdgeLocalWebdata = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Web Data"
-$EdgeLocalBookmarks = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Bookmark*"
-$EdgeLocalExtensions = "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Extensions\*"
+#$EdgeRoaming = "\\?\$env:APPDATA\Microsoft\Edge\User Data\Default"
+$EdgeLocalCookies = "\\?\$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Cookies"
+$EdgeLocalHistory = "\\?\$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\History"             
+$EdgeLocalWebdata = "\\?\$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Web Data"
+$EdgeLocalBookmarks = "\\?\$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Bookmark*"
+$EdgeLocalExtensions = "\\?\$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\Extensions\*"
 
 Write-Host "Closing Edge if still running..." -ForegroundColor Yellow                                                                               
 Get-Process msedge -ErrorAction SilentlyContinue | Stop-Process -Force

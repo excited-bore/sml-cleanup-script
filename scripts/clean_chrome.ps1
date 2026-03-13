@@ -1,5 +1,5 @@
-$chromeRoaming = "$env:APPDATA\Google\Chrome"
-$chromeLocal = "$env:LOCALAPPDATA\Google\Chrome\User Data"                                                                                                                                                                                                                    
+$chromeRoaming = "\\?\$env:APPDATA\Google\Chrome"
+$chromeLocal = "\\?\$env:LOCALAPPDATA\Google\Chrome\User Data"                                                                                                                                                                                                                    
 
 Write-Host "Closing Chrome if still running..." -ForegroundColor Yellow                                                                               
 Get-Process chrome -ErrorAction SilentlyContinue | Stop-Process -Force

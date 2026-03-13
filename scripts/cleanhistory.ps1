@@ -6,7 +6,7 @@ Write-Host "Clearing Explorer file history..." -ForegroundColor Cyan
 $expHist = Join-Path $env:APPDATA "Microsoft\Windows\Recent"
 $items = Get-ChildItem -Path $expHist
 if ( -not ($items.Count -eq 0)){
-    cmd.exe /c rd /s /q "$expHist/*" 
+    Remove-Item "\\?\$expHist/*" 
     Stop-Process -Name explorer -Force
     Write-Host "Explorer history cleared."
 }
@@ -49,7 +49,7 @@ foreach ($folder in $terminalMatches) {
     $historyPath = Join-Path $folder.FullName "LocalState\cache"
     if (Test-Path $historyPath) {
         try {
-            Remove-Item "$historyPath\*" -Force -Recurse -ErrorAction SilentlyContinue
+            Remove-Item "\\?\$historyPath\*" -Force -Recurse -ErrorAction SilentlyContinue
             Write-Host "Windows Terminal cache/history cleared at: $historyPath"
         } catch {
             Write-Warning "Failed to clear some Terminal cache items."

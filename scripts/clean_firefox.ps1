@@ -1,6 +1,5 @@
-$ffxPath = "$env:APPDATA\Mozilla\Firefox"
-$ffxPath1 = "$env:LOCALAPPDATA\Mozilla\Firefox"                                                                                                                                                                                                                    
-
+$ffxPath = "\\?\$env:APPDATA\Mozilla\Firefox"
+$ffxPath1 = "\\?\$env:LOCALAPPDATA\Mozilla\Firefox"                                                                                                                                                                                                                    
 Write-Host "Closing Firefox if still running..." -ForegroundColor Yellow                                                                            
 Get-Process firefox -ErrorAction SilentlyContinue | Stop-Process -Force
 
