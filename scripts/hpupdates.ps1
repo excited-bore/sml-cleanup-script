@@ -2,4 +2,4 @@ if ((winget list -q HP.ImageAssistant --accept-source-agreements) -eq 'No instal
     winget install --id HP.ImageAssistant --silent --accept-package-agreements --accept-source-agreements
 }
 
-Start-Process "C:\SWSetup\HPImageAssistant\HPImageAssistant.exe" -ArgumentList "/Action:Install /AutoCleanup /Category:BIOS,Drivers,Firmware /Silent" -Wait 
+Start-Process -Verb RunAs "C:\SWSetup\HPImageAssistant\HPImageAssistant.exe" -ArgumentList "/Action:Install /AutoCleanup /Category:BIOS,Drivers,Firmware" -Wait 
