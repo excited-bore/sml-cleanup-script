@@ -29,4 +29,3 @@ Get-ChildItem -Path "$path" -Filter "*.lnk" -Recurse | ForEach-Object {
     }
 }
 
-cmd.exe /c 'pause'
