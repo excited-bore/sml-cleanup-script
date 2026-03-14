@@ -38,8 +38,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command ^
 REM Clean Google Chrome data
 powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\clean_chrome.ps1"
 
-REM Remove empty programs from startmenu 
-powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\clean_startmenu.ps1"
+REM Remove empty programs from startmenu
+powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+"Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\clean_startmenu.ps1""'"
 
 REM Empty Userfolders
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
