@@ -1,5 +1,13 @@
+$manufacturer = Get-CimInstance -Classname Win32_ComputerSystem | Select-Object -Property Manufacturer -ExpandProperty Manufacturer
+
 Write-Host "Removing unknown files and folders from 'C:\'" -ForegroundColor Yellow
-$excludes = @('PerfLogs', 'Program Files', 'Program Files (x86)', 'Users', 'Windows')
+
+# Don't remove 'C:\SWSetup' if it's a HP machine
+if ( ( $manufacturer -eq 'HP' ) -or ( $manufacturer -eq 'Hewlett-Packard' )){
+    $excludes = @('PerfLogs', 'Program Files', 'Program Files (x86)', 'Users', 'Windows', 'SWSetup')
+} else {
+    $excludes = @('PerfLogs', 'Program Files', 'Program Files (x86)', 'Users', 'Windows')
+}
 Get-ChildItem -Path 'C:\' | Where-Object { $_.Name -notin $excludes } | ForEach-Object {
     Remove-Item -Recurse -Force "\\?\$($_.FullName)" -ErrorAction SilentlyContinue
 }

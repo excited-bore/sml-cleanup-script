@@ -7,52 +7,6 @@ if ( -not ( Test-Path -path "C:\Program Files\WindowsPowerShell\Modules\Microsof
 	Install-Module -Force Microsoft.Winget.Client
 }
 
-Write-Host "Attempting to update firmware before removing programs and locking down system"
-
-
-if ( $manufacturer -eq 'Dell Inc.'){
-    
-    Write-Host "Dell System detected. Installing Dell Commandline"
-    
-    & "$PSScriptRoot\dellupdate.ps1" 
-    
-    
-} elseif ( ( $manufacturer -eq 'HP' ) -or ( $manufacturer -eq 'Hewlett-Packard' )){
-    
-    Write-Host "HP system detected."
-    
-    # Now hpsupportassist 
-
-    & "$PSScriptRoot\hpsupportassist.ps1"
-
-    $filePath = "$PSScriptRoot\packages-dbs\hp-packages.csv"
-
-} elseif ( $manufacturer -eq 'LENOVO' ){
-    Write-Host "Lenovo system detected. Installing Lenovo Update..."
-    
-    & "$PSScriptRoot\lenovoupdate.ps1"
-    
-    # Now lenovo vantage 
-    
-    Write-Host "Installing Lenovo Vantage..." 
-
-    & "$PSScriptRoot\lenovovantage.ps1"
-
-    $filePath = "$PSScriptRoot\packages-dbs\lenovo-packages.csv"
-
-} elseif ( $manufacturer -eq "ASUSTeK COMPUTER INC." ) {
-    Write-Host "This is an ASUS system."
-} elseif ( $manufacturer -eq 'Acer' ) {
-    Write-Host "This is an Acer system."
-} elseif ( $manufacturer -eq "Gigabyte Technology Co., Ltd." ){
-    Write-Host "This is a Gigabyte system."
-} else {
-    Write-Host "Unknown system."
-    
-    $filePath = "$PSScriptRoot\packages-dbs\packages-test.csv"
-
-}
-
 Write-Host "Removing some Microsoft store apps"
 Write-Host "Removing Teams"
 Get-AppxPackage -AllUsers MSTeams | Remove-AppxPackage -AllUsers
@@ -128,6 +82,52 @@ Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.X
 Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.XboxSpeechToTextOverlay' | Remove-AppxProvisionedPackage -Online
 Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.XboxGamingOverlay' | Remove-AppxProvisionedPackage -Online
 Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.Xbox.TCUI' | Remove-AppxProvisionedPackage -Online
+
+Write-Host "Attempting to update firmware before removing programs and locking down system"
+
+
+if ( $manufacturer -eq 'Dell Inc.'){
+    
+    Write-Host "Dell System detected. Installing Dell Commandline"
+    
+    & "$PSScriptRoot\dellupdate.ps1" 
+    
+    
+} elseif ( ( $manufacturer -eq 'HP' ) -or ( $manufacturer -eq 'Hewlett-Packard' )){
+    
+    Write-Host "HP system detected."
+    
+    # Now hpsupportassist 
+
+    & "$PSScriptRoot\hpsupportassist.ps1"
+
+    $filePath = "$PSScriptRoot\packages-dbs\hp-packages.csv"
+
+} elseif ( $manufacturer -eq 'LENOVO' ){
+    Write-Host "Lenovo system detected. Installing Lenovo Update..."
+    
+    & "$PSScriptRoot\lenovoupdate.ps1"
+    
+    # Now lenovo vantage 
+    
+    Write-Host "Installing Lenovo Vantage..." 
+
+    & "$PSScriptRoot\lenovovantage.ps1"
+
+    $filePath = "$PSScriptRoot\packages-dbs\lenovo-packages.csv"
+
+} elseif ( $manufacturer -eq "ASUSTeK COMPUTER INC." ) {
+    Write-Host "This is an ASUS system."
+} elseif ( $manufacturer -eq 'Acer' ) {
+    Write-Host "This is an Acer system."
+} elseif ( $manufacturer -eq "Gigabyte Technology Co., Ltd." ){
+    Write-Host "This is a Gigabyte system."
+} else {
+    Write-Host "Unknown system."
+    
+    $filePath = "$PSScriptRoot\packages-dbs\packages-test.csv"
+
+}
 
 
 $packages = @(Get-WinGetPackage | Select-Object Name, Id)
