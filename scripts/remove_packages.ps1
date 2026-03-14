@@ -125,9 +125,8 @@ if ( $manufacturer -eq 'Dell Inc.'){
 
 }
 
-Write-Host "Installing Get-WinGetPackage to properly check for winget package id's"
-
 if ( -not ( Test-Path -path "C:\Program Files\WindowsPowerShell\Modules\Microsoft.WinGet.Client" )){
+	Write-Host "Installing Get-WinGetPackage to properly check for winget package id's"
 	winget upgrade Microsoft.AppInstaller --source winget
         Install-Package -Force -Name NuGet
 	Install-Module -Force Microsoft.Winget.Client

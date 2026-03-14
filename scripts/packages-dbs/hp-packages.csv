@@ -79,6 +79,7 @@
 "WindowsAppRuntime.1.7","MSIX\Microsoft.WindowsAppRuntime.1.7_7000.770.750.0_x86__8wekyb3d8bbwe"
 "WindowsAppRuntime.1.8","MSIX\Microsoft.WindowsAppRuntime.1.8_8000.770.947.0_x64__8wekyb3d8bbwe"
 "WindowsAppRuntime.1.8","MSIX\Microsoft.WindowsAppRuntime.1.8_8000.770.947.0_x86__8wekyb3d8bbwe"
+"Windows Kladblok","MSIX\Microsoft.WindowsNotepad_11.2510.14.0_x64__8wekyb3d8bbwe"
 "Windows Rekenmachine","MSIX\Microsoft.WindowsCalculator_11.2508.4.0_x64__8wekyb3d8bbwe"
 "Windows Camera","MSIX\Microsoft.WindowsCamera_2025.2510.2.0_x64__8wekyb3d8bbwe"
 "Windows Kaarten","MSIX\Microsoft.WindowsMaps_11.2506.3.0_x64__8wekyb3d8bbwe"
