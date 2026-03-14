@@ -1,13 +1,4 @@
-$modules = Get-Module -ListAvailable | Out-String
-$manufacturer = Get-CimInstance -Classname Win32_ComputerSystem | Select-Object -Property Manufacturer -ExpandProperty Manufacturer
-
-if ( -not ( Test-Path -path "C:\Program Files\WindowsPowerShell\Modules\Microsoft.WinGet.Client" )){
-	winget upgrade Microsoft.AppInstaller --source winget
-        Install-Package -Force -Name NuGet
-	Install-Module -Force Microsoft.Winget.Client
-}
-
-Write-Host "Removing some Microsoft store apps"
+Write-Host "Removing some Microsoft store apps (if they're not already removed)"
 Write-Host "Removing Teams"
 Get-AppxPackage -AllUsers MSTeams | Remove-AppxPackage -AllUsers
 # Prevent it being reinstalled for new users
@@ -83,8 +74,11 @@ Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.X
 Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.XboxGamingOverlay' | Remove-AppxProvisionedPackage -Online
 Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.Xbox.TCUI' | Remove-AppxProvisionedPackage -Online
 
-Write-Host "Attempting to update firmware before removing programs and locking down system"
+Write-Host "Checking manufacturer of device (HP, Lenovo, Dell...)"
 
+$manufacturer = Get-CimInstance -Classname Win32_ComputerSystem | Select-Object -Property Manufacturer -ExpandProperty Manufacturer
+
+Write-Host "Attempting to update firmware before removing programs and locking down system"
 
 if ( $manufacturer -eq 'Dell Inc.'){
     
@@ -95,8 +89,10 @@ if ( $manufacturer -eq 'Dell Inc.'){
     
 } elseif ( ( $manufacturer -eq 'HP' ) -or ( $manufacturer -eq 'Hewlett-Packard' )){
     
-    Write-Host "HP system detected."
+    Write-Host "HP system detected. Installing HP Image assistant..."
     
+    & "$PSScriptRoot\hpupdates.ps1"
+
     # Now hpsupportassist 
 
     & "$PSScriptRoot\hpsupportassist.ps1"
@@ -127,6 +123,14 @@ if ( $manufacturer -eq 'Dell Inc.'){
     
     $filePath = "$PSScriptRoot\packages-dbs\packages-test.csv"
 
+}
+
+Write-Host "Installing Get-WinGetPackage to properly check for winget package id's"
+
+if ( -not ( Test-Path -path "C:\Program Files\WindowsPowerShell\Modules\Microsoft.WinGet.Client" )){
+	winget upgrade Microsoft.AppInstaller --source winget
+        Install-Package -Force -Name NuGet
+	Install-Module -Force Microsoft.Winget.Client
 }
 
 
