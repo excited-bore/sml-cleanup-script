@@ -1,4 +1,4 @@
-if ((winget list -q Lenovo.SystemUpdate) -eq 'No installed package found matching input criteria.' ){
+if ((winget list -q Lenovo.SystemUpdate --accept-source-agreements) -eq 'No installed package found matching input criteria.' ){
     winget install --id Lenovo.SystemUpdate --silent --accept-package-agreements --accept-source-agreements
 }
 

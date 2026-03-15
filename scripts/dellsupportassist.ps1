@@ -1,9 +1,7 @@
 # powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\check_wget.ps1"
 
 if ( -not ( Test-Path -Path "C:\Program Files\Dell\SupportAssistAgent\bin\SupportAssistAgent.exe")){
-  
-    Write-Host "Installing Dell SupportAssist..." 
-    
+      
     if (-Not (Test-Path -Path "$env:TEMP\DellSupport\" )) {
         mkdir "$env:TEMP\DellSupport\"
     }
