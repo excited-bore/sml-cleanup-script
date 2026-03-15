@@ -1,4 +1,4 @@
-Write-Host "Cleaning up Start Menu programs"
+Write-Host "Cleaning up Start Menu programs" -ForegroundColor Cyan
 
 $path = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
 
@@ -19,11 +19,18 @@ Get-ChildItem -Path "$path" -Filter "*.lnk" -Recurse | ForEach-Object {
 	   		$top = $relative.Split('\')[0]
 	   		$top = Join-Path $path $top
  	   
- 	   		Write-Host "Removing folder '$top'" -ForegroundColor Yellow
-	   		Remove-Item -Path "\\?\$($top)" -Recurse -Force
+	   		Write-Host "Dangling shortcut '$_' found" -ForegroundColor Yellow
+			Write-Host "Remove containing folder '$top'? [Y/n]: " -ForegroundColor Yellow
+			$answer = Read-Host
+	   		if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
+				Remove-Item -Path "\\?\$($top)" -Recurse -Force
+			}
 		} else {
-           		Write-Host "Removing shortcut '$_'" -ForegroundColor Yellow
-	   		Remove-Item -Path "\\?\$($_.FullName)" -Force
+           		Write-Host "Dangling shortcut '$_' found" -ForegroundColor Yellow
+	   		Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow
+			if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
+				Remove-Item -Path "\\?\$($_.FullName)" -Force
+			}
 		}
     	}
     }
