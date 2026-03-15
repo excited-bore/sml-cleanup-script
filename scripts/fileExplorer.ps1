@@ -27,30 +27,33 @@ if ($restart -eq 1){
    Stop-Process -Name explorer -Force
 }
 
-reg load $temp $hive | Out-Null
+# The rest of this script sets file explorer enable extensions and fullpath on for the default user, so it sets this for any possible new user for the system
+# Unnessecary in retrospect so i'm leaving this out
 
-if (-not (Test-Path -Path "$path1\Advanced")){
-	New-Item -Path "$path1" -Name "Advanced" -Force | Out-Null 
-}
+# reg load $temp $hive | Out-Null
+
+# if (-not (Test-Path -Path "$path1\Advanced")){
+#	New-Item -Path "$path1" -Name "Advanced" -Force | Out-Null 
+# }
 
 # Set to show file extensions
 
-if (-not (Get-ItemProperty -Path "$path1\Advanced" -Name "HideFileExt")){ 
-   	Write-Host "Setting file explorer option to show file extensions"
-	Set-ItemProperty -Path "$path1\Advanced" HideFileExt 0;
-}
+# if (-not (Get-ItemProperty -Path "$path1\Advanced" -Name "HideFileExt")){ 
+#   	Write-Host "Setting file explorer option to show file extensions"
+#	Set-ItemProperty -Path "$path1\Advanced" HideFileExt 0;
+# }
 
 # Set to show full path in title bar
 
-if (-not (Get-ItemProperty -Path "$path1\Advanced" -Name "FullPath")){ 
- 	Write-Host "Setting file explorer option to show full path in titlebar"
-	Set-ItemProperty "$path1\Advanced" FullPath 1;
-}
+# if (-not (Get-ItemProperty -Path "$path1\Advanced" -Name "FullPath")){ 
+# 	Write-Host "Setting file explorer option to show full path in titlebar"
+# 	Set-ItemProperty "$path1\Advanced" FullPath 1;
+# }
 
 # Hidden Files
-# Set-ItemProperty $key Hidden 1
-# Set-ItemProperty $key ShowSuperHidden 1
+# # Set-ItemProperty $key Hidden 1
+# # Set-ItemProperty $key ShowSuperHidden 1
 
 # Collect garbage to free up memory and unload the hive 
-[gc]::Collect()
-reg unload $temp | Out-Null
+# [gc]::Collect()
+# reg unload $temp | Out-Null

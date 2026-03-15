@@ -1,37 +1,40 @@
 @echo off
 
 echo Checking explorer settings 
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process powershell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\fileExplorer.ps1""'"
 
 REM Batch has no 'or' statements???
-set value2=0
+REM set value2=0
 
-for /f "tokens=3" %%a in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "HideFileExt"') do set value=%%a
+REM for /f "tokens=3" %%a in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "HideFileExt"') do set value=%%a
 
-if "%value%" neq "0x0" (
-	set value2=1
-)
+REM if "%value%" neq "0x0" (
+REM 	set value2=1
+REM )
 
-reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "FullPath" >nul 2>&1
-if %errorlevel% neq 0 (
-	set value2=1
-) else (
+REM reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "FullPath" >nul 2>&1
+REM if %errorlevel% neq 0 (
+REM 	set value2=1
+REM ) else (
 	
-	for /f "tokens=3" %%b in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "FullPath"') do set value1=%%b
+REM	for /f "tokens=3" %%b in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "FullPath"') do set value1=%%b
 
-	if "%value1%"=="0x0" (
-	    set value2=1
-	)
-)
+REM	if "%value1%"=="0x0" (
+REM	    set value2=1
+REM	)
+REM )
 
-if "%value2%" == "1" (
-	powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\fileExplorer.ps1""'"
-)
+REM if "%value2%" == "1" (
+REM	powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\fileExplorer.ps1""'"
+REM )
 
 echo Disabling taskview button on taskbar
-for /f "tokens=3" %%c in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowTaskViewButton"') do set value3=%%c
-if "%value3%" neq "0x0" (
-	powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\disable_taskview.ps1""'"
-)
+powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process powershell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\disable_taskview.ps1""'"
+
+REM for /f "tokens=3" %%c in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowTaskViewButton"') do set value3=%%c
+REM if "%value3%" neq "0x0" (
+REM	powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\disable_taskview.ps1""'"
+REM )
 
 echo Removing unnecessary packages 
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
@@ -70,12 +73,12 @@ REM Clean Google Chrome data
 powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\clean_chrome.ps1"
 
 REM Remove empty programs from startmenu
-powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-"Start-Process powershell -Verb RunAs -Wait -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\clean_startmenu.ps1""'"
+REM powershell -NoProfile -ExecutionPolicy Bypass -Command ^
+REM "Start-Process powershell -Verb RunAs -Wait -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\clean_startmenu.ps1""'"
 
 REM Empty Userfolders
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-"Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\clean_userfolders.ps1""'"
+"Start-Process powershell -Verb RunAs -Wait -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\clean_userfolders.ps1""'"
 
 REM Empty Trash
 powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\clean_trash.ps1"

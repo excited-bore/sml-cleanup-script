@@ -1,3 +1,41 @@
+Write-Host "Cleaning up Start Menu programs" -ForegroundColor Cyan
+
+$path = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
+
+Get-ChildItem -Path "$path" -Filter "*.lnk" -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
+    if (Test-Path $_.FullName) {
+    	$shell = New-Object -ComObject WScript.Shell
+    	$shortcut = $shell.CreateShortcut($_.FullName)
+    	$target = $shortcut.TargetPath
+
+    	if (-not (Test-Path $target)) {
+		
+		# Check if parent containing dangling link is not Start Menu\Programs, and if so remove parent folder that sits in Start Menu\Programs instead of links itself
+		$path1 = Split-Path -Path $_.FullName
+	
+        	if ( -not ( $path -eq $path1 )){
+	   
+           		$relative = $path1.Substring($path.Length).TrimStart('\')
+	   		$top = $relative.Split('\')[0]
+	   		$top = Join-Path $path $top
+ 	   
+	   		Write-Host "Dangling shortcut '$_' found" -ForegroundColor Yellow
+			Write-Host "Remove containing folder '$top'? [Y/n]: " -ForegroundColor Yellow
+			$answer = Read-Host
+	   		if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
+				Remove-Item -Path "\\?\$($top)" -Recurse -Force
+			}
+		} else {
+           		Write-Host "Dangling shortcut '$_' found" -ForegroundColor Yellow
+	   		Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow
+			if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
+				Remove-Item -Path "\\?\$($_.FullName)" -Force
+			}
+		}
+    	}
+    }
+}
+
 $manufacturer = Get-CimInstance -Classname Win32_ComputerSystem | Select-Object -Property Manufacturer -ExpandProperty Manufacturer
 
 Write-Host "Removing unknown files and folders from 'C:\'" -ForegroundColor Yellow
