@@ -1,15 +1,17 @@
 Write-Host "Cleaning up Start Menu programs" -ForegroundColor Cyan
 
 $path = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
+$pause = 0
 
-Get-ChildItem -Path "$path" -Filter "*.lnk" -Recurse | ForEach-Object {
+Get-ChildItem -Path "$path" -Filter "*.lnk" -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
     if (Test-Path $_.FullName) {
     	$shell = New-Object -ComObject WScript.Shell
     	$shortcut = $shell.CreateShortcut($_.FullName)
     	$target = $shortcut.TargetPath
 
     	if (-not (Test-Path $target)) {
-
+		
+		$pause = 1
 		# Check if parent containing dangling link is not Start Menu\Programs, and if so remove parent folder that sits in Start Menu\Programs instead of links itself
 		$path1 = Split-Path -Path $_.FullName
 	
@@ -36,3 +38,6 @@ Get-ChildItem -Path "$path" -Filter "*.lnk" -Recurse | ForEach-Object {
     }
 }
 
+if ( $pause -eq 1 ){
+    cmd.exe /c 'pause'
+}

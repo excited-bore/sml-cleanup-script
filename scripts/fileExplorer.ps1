@@ -15,9 +15,10 @@ if (-not ((Get-ItemPropertyValue -Path "$path" -Name "HideFileExt") -eq 0)){
 
 # Set to show full path in title bar
 
-if (-not ((Get-ItemPropertyValue -Path "$path" -Name "FullPath") -eq 1)){ 
+$fullpath = Get-ItemProperty -Path "$path" -Name 'FullPath' -ErrorAction SilentlyContinue
+if ((-not $fullpath) -or ( -not ($fullpath -eq 1))){ 
  	Write-Host "Setting file explorer option to show full path in titlebar for $env:USERNAME"
-	Set-ItemProperty "$path" FullPath 1;
+	Set-ItemProperty -Path "$path" FullPath 1;
 	$restart = 1;
 } 
 
