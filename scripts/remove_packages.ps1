@@ -86,21 +86,17 @@ if ( $manufacturer -eq 'Dell Inc.'){
 
     # Check if Dell Commandline is installed; if not, install 
 
-    if (( -Not (Test-Path -Path "C:\Program Files (x86)\Dell\CommandUpdate\dcu-cli.exe")) -and ( -Not (Test-Path -Path "C:\Program Files\Dell\CommandUpdate\dcu-cli.exe"))) {
     
-    	Write-Host "Installing and running Dell Commandline for updates..." -ForegroundColor Yellow
-    
-    	& "$PSScriptRoot\dellupdate.ps1"
-    }
+    Write-Host "Installing and running Dell Commandline for updates..." -ForegroundColor Yellow
+
+    & "$PSScriptRoot\dellupdate.ps1"
 
     # Same for Dell Supportassist
 	
-    if ( -not ( Test-Path -Path "C:\Program Files\Dell\SupportAssistAgent\bin\SupportAssistAgent.exe")){
 	
-	Write-Host "Installing Dell SupportAssist..." -ForegroundColor Yellow
-    
-    	& "$PSScriptRoot\dellupdate.ps1"
-    }
+    Write-Host "Installing Dell SupportAssist..." -ForegroundColor Yellow
+
+    & "$PSScriptRoot\dellupdate.ps1"
     
     
 } elseif ( ( $manufacturer -eq 'HP' ) -or ( $manufacturer -eq 'Hewlett-Packard' )){
@@ -109,21 +105,15 @@ if ( $manufacturer -eq 'Dell Inc.'){
     
     # Check if HPsupportassist is installed; if not, install 
 
-    if ( -Not (Test-Path -Path 'C:\Program Files (x86)\HP\HP Support Framework\HPSupportAssistant.dll' )){
-		
-	Write-Host "Installing HP Support Assistant..." -ForegroundColor Yellow
+    Write-Host "Installing HP Support Assistant..." -ForegroundColor Yellow
 
-	& "$PSScriptRoot\hpsupportassist.ps1"
-    }    
+    & "$PSScriptRoot\hpsupportassist.ps1"
 
     # Same for HP Image assistant. This will also update
 
-    if ( -not (Test-Path -Path 'C:\SWSetup\HPImageAssistant\HPImageAssistant.exe' )){
-	
-	Write-Host "Installing and running HP Image assistant for updates..." -ForegroundColor Yellow
-	
-	& "$PSScriptRoot\hpupdates.ps1"
-    }
+    Write-Host "Installing and running HP Image assistant for updates..." -ForegroundColor Yellow
+    
+    & "$PSScriptRoot\hpupdates.ps1"
     	
     $filePath = "$PSScriptRoot\packages-dbs\hp-packages.csv"
 
@@ -131,22 +121,13 @@ if ( $manufacturer -eq 'Dell Inc.'){
     
     Write-Host "Lenovo system detected." -ForegroundColor Cyan
     
-    # Now lenovo vantage which is a microsoft store exclusive app, so we can only check if it's installed with winget 
-    # (since msstore installation folder 'C:\Program Files\WindowsApps' has TrustedInstaller privileges, we - Administrators - dont even have read permissions for it)
-    
-    if ((winget list -q 9WZDNCRFJ4MV --accept-source-agreements) -eq 'No installed package found matching input criteria.' ){
-    
-	Write-Host "Installing Lenovo Vantage..." -ForegroundColor Yellow
+    Write-Host "Installing Lenovo Vantage..." -ForegroundColor Yellow
 
-    	& "$PSScriptRoot\lenovovantage.ps1"
-    }
-
-    if ( -not (Test-Path -Path 'C:\Program Files (x86)\Lenovo\System Update\tvsu.exe')) {
+    & "$PSScriptRoot\lenovovantage.ps1"
     
-	Write-Host "Installing Lenovo Update..." -ForegroundColor Yellow
-	
-	& "$PSScriptRoot\lenovoupdate.ps1"
-    }
+    Write-Host "Installing Lenovo Update..." -ForegroundColor Yellow
+    
+    & "$PSScriptRoot\lenovoupdate.ps1"
 
     $filePath = "$PSScriptRoot\packages-dbs\lenovo-packages.csv"
 

@@ -7,8 +7,8 @@ Get-ChildItem -Path "$path" -Filter "*.lnk" -Recurse -ErrorAction SilentlyContin
     	$shell = New-Object -ComObject WScript.Shell
     	$shortcut = $shell.CreateShortcut($_.FullName)
     	$target = $shortcut.TargetPath
-
-    	if (-not (Test-Path $target)) {
+	
+    	if (([string]::IsNullOrWhiteSpace($target)) -or (-not (Test-Path $target))) {
 		
 		# Check if parent containing dangling link is not Start Menu\Programs, and if so remove parent folder that sits in Start Menu\Programs instead of links itself
 		$path1 = Split-Path -Path $_.FullName
@@ -28,6 +28,7 @@ Get-ChildItem -Path "$path" -Filter "*.lnk" -Recurse -ErrorAction SilentlyContin
 		} else {
            		Write-Host "Dangling shortcut '$_' found" -ForegroundColor Yellow
 	   		Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow
+			$answer = Read-Host
 			if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
 				Remove-Item -Path "\\?\$($_.FullName)" -Force
 			}
