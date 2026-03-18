@@ -2,8 +2,11 @@ if ((winget list -q HP.ImageAssistant --accept-source-agreements) -eq 'No instal
     winget install --id HP.ImageAssistant --silent --accept-package-agreements --accept-source-agreements
 }
 
-Write-Host "Updating HP Firmware (Drivers, BIOS, ...)" -ForegroundColor Cyan
-Start-Process -Verb RunAs "C:\SWSetup\HPImageAssistant\HPImageAssistant.exe" -ArgumentList "/Operation:Analyze /Action:Install /AutoCleanup /Category:BIOS,Drivers,Firmware /Noninteractive" -Wait
+if (Get-Variable $update -ErrorAction SilentlyContinue){
 
-Write-Host "Done updating!" -ForegroundColor Green
-cmd.exe /c 'pause'
+    Write-Host "Updating HP Firmware (Drivers, BIOS, ...)" -ForegroundColor Cyan
+    Start-Process -Verb RunAs "C:\SWSetup\HPImageAssistant\HPImageAssistant.exe" -ArgumentList "/Operation:Analyze /Action:Install /AutoCleanup /Category:BIOS,Drivers,Firmware /Noninteractive" -Wait
+
+    Write-Host "Done updating!" -ForegroundColor Green
+    cmd.exe /c 'pause'
+}

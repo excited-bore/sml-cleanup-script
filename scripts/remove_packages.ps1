@@ -92,23 +92,23 @@ if ( $manufacturer -eq 'Dell Inc.'){
 	
     Write-Host "Installing Dell SupportAssist..." -ForegroundColor Yellow
 
-    & "$PSScriptRoot\dellupdate.ps1"
+    & "$PSScriptRoot\dellsupportassist.ps1"
 
 } elseif ( ( $manufacturer -eq 'HP' ) -or ( $manufacturer -eq 'Hewlett-Packard' )){
     
     Write-Host "HP system detected." -ForegroundColor Cyan
+    
+    # Same for HP Image assistant. This will also update
+
+    Write-Host "Installing and running HP Image assistant for updates..." -ForegroundColor Yellow
+    
+    & "$PSScriptRoot\hpupdates.ps1"
     
     # Check if HPsupportassist is installed; if not, install 
 
     Write-Host "Installing HP Support Assistant..." -ForegroundColor Yellow
 
     & "$PSScriptRoot\hpsupportassist.ps1"
-
-    # Same for HP Image assistant. This will also update
-
-    Write-Host "Installing and running HP Image assistant for updates..." -ForegroundColor Yellow
-    
-    & "$PSScriptRoot\hpupdates.ps1"
     
     $filePath = "$PSScriptRoot\packages-dbs\hp-packages.csv"
 
@@ -116,14 +116,14 @@ if ( $manufacturer -eq 'Dell Inc.'){
     
     Write-Host "Lenovo system detected." -ForegroundColor Cyan
     
-    Write-Host "Installing Lenovo Vantage..." -ForegroundColor Yellow
-
-    & "$PSScriptRoot\lenovovantage.ps1"
-    
     Write-Host "Installing Lenovo Update..." -ForegroundColor Yellow
     
     & "$PSScriptRoot\lenovoupdate.ps1"
 
+    Write-Host "Installing Lenovo Vantage..." -ForegroundColor Yellow
+
+    & "$PSScriptRoot\lenovovantage.ps1"
+    
     $filePath = "$PSScriptRoot\packages-dbs\lenovo-packages.csv"
 
 } elseif ( $manufacturer -eq "ASUSTeK COMPUTER INC." ) {
