@@ -1,4 +1,4 @@
-Write-Host "Cleaning up Start Menu programs" -ForegroundColor Cyan
+Write-Host "Cleaning up Start Menu entries" -ForegroundColor Cyan
 
 $path = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
 
@@ -19,19 +19,61 @@ Get-ChildItem -Path "$path" -Filter "*.lnk" -Recurse -ErrorAction SilentlyContin
 	   		$top = $relative.Split('\')[0]
 	   		$top = Join-Path $path $top
  	   
-	   		Write-Host "Dangling shortcut '$_' found" -ForegroundColor Yellow
+	   		Write-Host "Dangling shortcut '$_' found found among startmenu entries" -ForegroundColor Yellow
 			Write-Host "Remove containing folder '$top'? [Y/n]: " -ForegroundColor Yellow
 			$answer = Read-Host
 	   		if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
 				Remove-Item -Path "\\?\$($top)" -Recurse -Force
 			}
 		} else {
-           		Write-Host "Dangling shortcut '$_' found" -ForegroundColor Yellow
+           		Write-Host "Dangling shortcut '$_' found among startmenu entries" -ForegroundColor Yellow
 	   		Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow
 			$answer = Read-Host
 			if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
 				Remove-Item -Path "\\?\$($_.FullName)" -Force
 			}
+		}
+    	}
+    }
+}
+
+
+Write-Host "Cleaning up Desktop shortcuts" -ForegroundColor Cyan
+
+$desktop = "C:\Users\$env:USERNAME\Desktop"
+$desktop_public = "C:\Users\Public\Desktop"
+
+Get-ChildItem -Path "$desktop" -Filter "*.lnk" -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
+    if (Test-Path $_.FullName) {
+    	$shell = New-Object -ComObject WScript.Shell
+    	$shortcut = $shell.CreateShortcut($_.FullName)
+    	$target = $shortcut.TargetPath
+	
+    	if (([string]::IsNullOrWhiteSpace($target)) -or (-not (Test-Path $target))) {
+		
+	        Write-Host "Dangling shortcut '$_' found on Desktop" -ForegroundColor Yellow
+	   	Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow
+		$answer = Read-Host
+		if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
+			Remove-Item -Path "\\?\$($_.FullName)" -Force
+		}
+    	}
+    }
+}
+
+Get-ChildItem -Path "$desktop_public" -Filter "*.lnk" -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
+    if (Test-Path $_.FullName) {
+    	$shell = New-Object -ComObject WScript.Shell
+    	$shortcut = $shell.CreateShortcut($_.FullName)
+    	$target = $shortcut.TargetPath
+	
+    	if (([string]::IsNullOrWhiteSpace($target)) -or (-not (Test-Path $target))) {
+		
+	        Write-Host "Dangling shortcut '$_' found on the public Desktop" -ForegroundColor Yellow
+	   	Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow
+		$answer = Read-Host
+		if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
+			Remove-Item -Path "\\?\$($_.FullName)" -Force
 		}
     	}
     }
@@ -55,6 +97,12 @@ Get-ChildItem -Path 'C:\' | Where-Object { $_.Name -notin $excludes } | ForEach-
 Write-Host "Removing unknown users from 'C:\Users'" -ForegroundColor Yellow
 $excludes = @('LaptopSML', 'Public', "$env:USERNAME")
 Get-ChildItem -Path 'C:\Users\' | Where-Object { $_.Name -notin $excludes } | ForEach-Object {
+    Remove-Item -Recurse -Force "\\?\$($_.FullName)" -ErrorAction SilentlyContinue
+}
+
+Write-Host "Removing unknown files and folders from 'C:\Users\$env:USERNAME'" -ForegroundColor Yellow
+$excludes = @('Contacts', 'Desktop', "Documents", 'Downloads', 'Favorites', 'Links', 'Music', 'OneDrive', 'Pictures', 'Saved Games', 'Searches', 'Videos')
+Get-ChildItem -Path "C:\Users\$env:USERNAME" | Where-Object { $_.Name -notin $excludes } | ForEach-Object {
     Remove-Item -Recurse -Force "\\?\$($_.FullName)" -ErrorAction SilentlyContinue
 }
 

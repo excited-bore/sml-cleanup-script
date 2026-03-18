@@ -74,18 +74,15 @@ Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.X
 Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.XboxGamingOverlay' | Remove-AppxProvisionedPackage -Online
 Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.Xbox.TCUI' | Remove-AppxProvisionedPackage -Online
 
-Write-Host "Checking manufacturer of device (HP, Lenovo, Dell...)"
 
-$manufacturer = Get-CimInstance -Classname Win32_ComputerSystem | Select-Object -Property Manufacturer -ExpandProperty Manufacturer
 
-Write-Host "Attempting to update firmware before removing programs and locking down system"
+Write-Host "Installing firmware updaters" -ForegroundColor Cyan
 
 if ( $manufacturer -eq 'Dell Inc.'){
     
     Write-Host "Dell System detected." -ForegroundColor Cyan
 
     # Check if Dell Commandline is installed; if not, install 
-
     
     Write-Host "Installing and running Dell Commandline for updates..." -ForegroundColor Yellow
 
@@ -93,12 +90,10 @@ if ( $manufacturer -eq 'Dell Inc.'){
 
     # Same for Dell Supportassist
 	
-	
     Write-Host "Installing Dell SupportAssist..." -ForegroundColor Yellow
 
     & "$PSScriptRoot\dellupdate.ps1"
-    
-    
+
 } elseif ( ( $manufacturer -eq 'HP' ) -or ( $manufacturer -eq 'Hewlett-Packard' )){
     
     Write-Host "HP system detected." -ForegroundColor Cyan
@@ -114,7 +109,7 @@ if ( $manufacturer -eq 'Dell Inc.'){
     Write-Host "Installing and running HP Image assistant for updates..." -ForegroundColor Yellow
     
     & "$PSScriptRoot\hpupdates.ps1"
-    	
+    
     $filePath = "$PSScriptRoot\packages-dbs\hp-packages.csv"
 
 } elseif ( $manufacturer -eq 'LENOVO' ){
@@ -144,13 +139,20 @@ if ( $manufacturer -eq 'Dell Inc.'){
 
 }
 
-if ( -not ( Test-Path -path "C:\Program Files\WindowsPowerShell\Modules\Microsoft.WinGet.Client" )){
-	Write-Host "Installing Get-WinGetPackage to properly check for winget package id's"
+Write-Host "Checking manufacturer of device (HP, Lenovo, Dell...)"
+
+$manufacturer = Get-CimInstance -Classname Win32_ComputerSystem | Select-Object -Property Manufacturer -ExpandProperty Manufacturer
+
+if ( -not ( Test-Path -path "C:\Program Files\WindowsPowerShell\Modules\Microsoft.WinGet.Client" -ErrorAction SilentlyContinue )){
+	Write-Host "Installing Get-WinGetPackage to properly check for winget package id's" -ForegroundColor Cyan
 	winget upgrade Microsoft.AppInstaller --source winget
         Install-Package -Force -Name NuGet
 	Install-Module -Force Microsoft.Winget.Client
 }
 
+Write-Host "Installing Chrome and Firefox" -ForegroundColor Cyan
+
+& "$PSScriptRoot\install_apps.ps1"
 
 $packages = @(Get-WinGetPackage | Select-Object Name, Id)
 if ( Test-Path -path $filePath){
