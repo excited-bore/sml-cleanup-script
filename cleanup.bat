@@ -1,5 +1,8 @@
 @echo off
 
+REM Attempt to resync time if out of sync
+powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\dateandtime.ps1"
+
 echo Checking explorer settings 
 powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process powershell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\fileExplorer.ps1""'"
 
