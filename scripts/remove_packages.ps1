@@ -158,7 +158,7 @@ $packages = @(Get-WinGetPackage | Select-Object Name, Id)
 if ( Test-Path -path $filePath){
 	$packages2 = Import-Csv -Path $filePath
 	foreach ($package in $packages) {
-		if (( $packages2.Name -notcontains $package.Name ) -and ( $packages2.Id -notcontains $package.Id ) ) 
+		if (( $packages2.Name -notcontains $package.Name ) -and ( $packages2.Id -notcontains $package.Id ) -and ( $package.Id -notlike '*.NET.*' ) -and ( $package.Id -notlike '*.VCLibs.*' ) -and ( $package.Id -notlike '*.WinAppRuntime.*' ) -and ( $package.Id -notlike '*.WindowsAppRuntime.*' ) ) 
 		{
 			$name = $package.Name
 			$id = $package.Id
@@ -167,10 +167,10 @@ if ( Test-Path -path $filePath){
 			$answer = Read-Host
 			if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
 				try { 
-				     winget uninstall --id $package.Id --purge --disable-interactivity --accept-source-agreements
+				     winget uninstall --id $package.Id --all-versions --purge --disable-interactivity --accept-source-agreements
 				} catch {
 				     # Try with --source winget
-                                     winget uninstall --id $package.Id --source winget --purge --disable-interactivity --accept-source-agreements
+                                     winget uninstall --id $package.Id --source winget --all-versions --purge --disable-interactivity --accept-source-agreements
 				}
 			}
 		}

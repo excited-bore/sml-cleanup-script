@@ -49,7 +49,8 @@ Get-ChildItem -Path "$desktop" -Filter "*.lnk" -Recurse -ErrorAction SilentlyCon
     	$shortcut = $shell.CreateShortcut($_.FullName)
     	$target = $shortcut.TargetPath
 	
-    	if (([string]::IsNullOrWhiteSpace($target)) -or (-not (Test-Path $target))) {
+	# Checking a target that's actually a url is hard to check since TargetPath is just empty, so we just check the name and call it a day
+    	if ( -not ($_.Name -eq 'Smartschool.lnk') -and ([string]::IsNullOrWhiteSpace($target) -or (-not (Test-Path $target)))) {	
 		
 	        Write-Host "Dangling shortcut '$_' found on Desktop" -ForegroundColor Yellow
 	   	Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow
@@ -67,7 +68,7 @@ Get-ChildItem -Path "$desktop_public" -Filter "*.lnk" -Recurse -ErrorAction Sile
     	$shortcut = $shell.CreateShortcut($_.FullName)
     	$target = $shortcut.TargetPath
 	
-    	if (([string]::IsNullOrWhiteSpace($target)) -or (-not (Test-Path $target))) {
+    	if ( -not ($_.Name -eq 'Smartschool.lnk') -and ([string]::IsNullOrWhiteSpace($target) -or (-not (Test-Path $target)))) {	
 		
 	        Write-Host "Dangling shortcut '$_' found on the public Desktop" -ForegroundColor Yellow
 	   	Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow
