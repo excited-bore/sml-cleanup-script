@@ -4,40 +4,13 @@ REM Attempt to resync time if out of sync
 powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\dateandtime.ps1"
 
 echo Checking explorer settings 
-powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process powershell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\fileExplorer.ps1""'"
+powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\fileExplorer.ps1"
 
-REM Batch has no 'or' statements???
-REM set value2=0
-
-REM for /f "tokens=3" %%a in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "HideFileExt"') do set value=%%a
-
-REM if "%value%" neq "0x0" (
-REM 	set value2=1
-REM )
-
-REM reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "FullPath" >nul 2>&1
-REM if %errorlevel% neq 0 (
-REM 	set value2=1
-REM ) else (
-	
-REM	for /f "tokens=3" %%b in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "FullPath"') do set value1=%%b
-
-REM	if "%value1%"=="0x0" (
-REM	    set value2=1
-REM	)
-REM )
-
-REM if "%value2%" == "1" (
-REM	powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\fileExplorer.ps1""'"
-REM )
+echo Disabling chat button on taskbar
+powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\disable_chat.ps1"
 
 echo Disabling taskview button on taskbar
-powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process powershell -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\disable_taskview.ps1""'"
-
-REM for /f "tokens=3" %%c in ('reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "ShowTaskViewButton"') do set value3=%%c
-REM if "%value3%" neq "0x0" (
-REM	powershell -NoProfile -ExecutionPolicy Bypass -Command "Start-Process powershell -Verb RunAs -ArgumentList '-NoProfile -ExecutionPolicy Bypass -File ""%~dp0scripts\disable_taskview.ps1""'"
-REM )
+powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\disable_taskview.ps1"
 
 echo Removing unnecessary packages 
 powershell -NoProfile -ExecutionPolicy Bypass -Command ^
