@@ -20,15 +20,15 @@ Get-ChildItem -Path "$path" -Filter "*.lnk" -Recurse -ErrorAction SilentlyContin
 	   		$top = Join-Path $path $top
  	   
 	   		Write-Host "Dangling shortcut '$_' found found among startmenu entries" -ForegroundColor Yellow
-			Write-Host "Remove containing folder '$top'? [Y/n]: " -ForegroundColor Yellow
-			$answer = Read-Host
+			Write-Host "Remove containing folder '$top'? [Y/n]: " -ForegroundColor Yellow -NoNewline
+			[string]$answer = Read-Host
 	   		if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
 				Remove-Item -Path "\\?\$($top)" -Recurse -Force
 			}
 		} else {
            		Write-Host "Dangling shortcut '$_' found among startmenu entries" -ForegroundColor Yellow
-	   		Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow
-			$answer = Read-Host
+	   		Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow -NoNewline
+			[string]$answer = Read-Host
 			if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
 				Remove-Item -Path "\\?\$($_.FullName)" -Force
 			}
@@ -53,8 +53,8 @@ Get-ChildItem -Path "$desktop" -Filter "*.lnk" -Recurse -ErrorAction SilentlyCon
     	if ( -not ($_.Name -eq 'Smartschool.lnk') -and ([string]::IsNullOrWhiteSpace($target) -or (-not (Test-Path $target)))) {	
 		
 	        Write-Host "Dangling shortcut '$_' found on Desktop" -ForegroundColor Yellow
-	   	Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow
-		$answer = Read-Host
+	   	Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow -NoNewline
+		[string]$answer = Read-Host
 		if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
 			Remove-Item -Path "\\?\$($_.FullName)" -Force
 		}
@@ -71,8 +71,8 @@ Get-ChildItem -Path "$desktop_public" -Filter "*.lnk" -Recurse -ErrorAction Sile
     	if ( -not ($_.Name -eq 'Smartschool.lnk') -and ([string]::IsNullOrWhiteSpace($target) -or (-not (Test-Path $target)))) {	
 		
 	        Write-Host "Dangling shortcut '$_' found on the public Desktop" -ForegroundColor Yellow
-	   	Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow
-		$answer = Read-Host
+	   	Write-Host "Remove shortcut '$_'? [Y/n]: " -ForegroundColor Yellow -NoNewline
+		[string]$answer = Read-Host
 		if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
 			Remove-Item -Path "\\?\$($_.FullName)" -Force
 		}

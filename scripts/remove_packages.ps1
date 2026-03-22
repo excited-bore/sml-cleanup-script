@@ -163,8 +163,8 @@ if ( Test-Path -path $filePath){
 			$name = $package.Name
 			$id = $package.Id
 			Write-Host "$name with id '$id' is unknown / seems unecessary." -ForegroundColor Red
-			Write-Host "Remove it? [Y/n]: " -ForegroundColor Yellow
-			$answer = Read-Host
+			Write-Host "Remove it? [Y/n]: " -ForegroundColor Yellow -NoNewline
+			[string]$answer = Read-Host
 			if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
 				try { 
 				     winget uninstall --id $package.Id --all-versions --purge --disable-interactivity --accept-source-agreements
