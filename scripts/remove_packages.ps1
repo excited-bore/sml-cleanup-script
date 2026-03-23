@@ -1,3 +1,5 @@
+. "$PSScriptRoot\Read-Host-Prefill.ps1"
+
 Write-Host "Removing some Microsoft store apps (if they're not already removed)"
 Write-Host "Removing Teams"
 Get-AppxPackage -AllUsers MSTeams | Remove-AppxPackage -AllUsers
@@ -161,8 +163,7 @@ if ( Test-Path -path $filePath){
 			$name = $package.Name
 			$id = $package.Id
 			Write-Host "$name with id '$id' is unknown / seems unecessary." -ForegroundColor Red
-			Write-Host "Remove it? [Y/n]: " -ForegroundColor Yellow -NoNewline
-			[string]$answer = Read-Host
+			[string]$answer = Read-Host-Prefill "Remove it? [Y/n]: " -Prefills 'y', 'n' -ForegroundColor Yellow 
 			if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
 				try { 
 				     winget uninstall --id $package.Id --all-versions --purge --disable-interactivity --accept-source-agreements
