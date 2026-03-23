@@ -74,7 +74,9 @@ Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.X
 Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.XboxGamingOverlay' | Remove-AppxProvisionedPackage -Online
 Get-AppxProvisionedPackage -Online | Where-Object DisplayName -like 'Microsoft.Xbox.TCUI' | Remove-AppxProvisionedPackage -Online
 
+Write-Host "Checking manufacturer of device (HP, Lenovo, Dell...)"
 
+$manufacturer = Get-CimInstance -Classname Win32_ComputerSystem | Select-Object -Property Manufacturer -ExpandProperty Manufacturer
 
 Write-Host "Installing firmware updaters" -ForegroundColor Cyan
 
@@ -136,12 +138,8 @@ if ( $manufacturer -eq 'Dell Inc.'){
     Write-Host "Unknown system."
     
     $filePath = "$PSScriptRoot\packages-dbs\packages-test.csv"
-
 }
 
-Write-Host "Checking manufacturer of device (HP, Lenovo, Dell...)"
-
-$manufacturer = Get-CimInstance -Classname Win32_ComputerSystem | Select-Object -Property Manufacturer -ExpandProperty Manufacturer
 
 if ( -not ( Test-Path -path "C:\Program Files\WindowsPowerShell\Modules\Microsoft.WinGet.Client" -ErrorAction SilentlyContinue )){
 	Write-Host "Installing Get-WinGetPackage to properly check for winget package id's" -ForegroundColor Cyan
