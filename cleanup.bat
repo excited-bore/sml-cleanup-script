@@ -6,6 +6,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\dateandtime.ps1"
 echo Checking explorer settings 
 powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\fileExplorer.ps1"
 
+echo Disabling notifications 
+powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\disable_notifications.ps1"
+
 echo Disabling chat button on taskbar
 powershell -NoProfile -ExecutionPolicy Bypass -File ".\scripts\disable_chat.ps1"
 
