@@ -1,6 +1,11 @@
-Write-Host "Creating battery report and opening it with edge"
-powercfg /BATTERYREPORT /OUTPUT "$env:TEMP/Battery.html"
-
-if (Test-Path -Path "$env:TEMP/Battery.html"){
-    & 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe' @("$env:TEMP/Battery.html")
+$designCap = Get-WmiObject -Class 'BatteryStaticData' -Namespace 'root\wmi' | 
+Group-Object -Property InstanceName -AsHashTable -AsString
+    
+Get-CimInstance -Class 'BatteryFullChargedCapacity' -Namespace 'root/wmi' | 
+Select-Object -Property InstanceName, FullChargedCapacity, DesignedCapacity, Percent |
+ForEach-Object {
+	$_.DesignedCapacity = $designCap[$_.InstanceName].DesignedCapacity
+	$_.Percent = [Math]::Round( ( $_.FullChargedCapacity * 100 / $_.DesignedCapacity), 2)
+	$_
 }
+cmd.exe /c 'pause'
