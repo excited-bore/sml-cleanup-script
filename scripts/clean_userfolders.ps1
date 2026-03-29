@@ -1,41 +1,41 @@
-. "$PSScriptRoot\Read-Host-Prefill.ps1"
+# . "$PSScriptRoot\Read-Host-Prefill.ps1"
 
-Write-Host "Cleaning up Start Menu entries" -ForegroundColor Cyan
+# Write-Host "Cleaning up Start Menu entries" -ForegroundColor Cyan
 
-$path = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
+# $path = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
 
-Get-ChildItem -Path "$path" -Filter "*.lnk" -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
-    if (Test-Path $_.FullName) {
-    	$shell = New-Object -ComObject WScript.Shell
-    	$shortcut = $shell.CreateShortcut($_.FullName)
-    	$target = $shortcut.TargetPath
+# Get-ChildItem -Path "$path" -Filter "*.lnk" -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
+#    if (Test-Path $_.FullName) {
+#    	$shell = New-Object -ComObject WScript.Shell
+#    	$shortcut = $shell.CreateShortcut($_.FullName)
+#    	$target = $shortcut.TargetPath
 	
-    	if (([string]::IsNullOrWhiteSpace($target)) -or (-not (Test-Path $target))) {
+#    	if (([string]::IsNullOrWhiteSpace($target)) -or (-not (Test-Path $target))) {
 		
 		# Check if parent containing dangling link is not Start Menu\Programs, and if so remove parent folder that sits in Start Menu\Programs instead of links itself
-		$path1 = Split-Path -Path $_.FullName
+#		$path1 = Split-Path -Path $_.FullName
 	
-        	if ( -not ( $path -eq $path1 )){
+#        	if ( -not ( $path -eq $path1 )){
 	   
-           		$relative = $path1.Substring($path.Length).TrimStart('\')
-	   		$top = $relative.Split('\')[0]
-	   		$top = Join-Path $path $top
+#           		$relative = $path1.Substring($path.Length).TrimStart('\')
+#	   		$top = $relative.Split('\')[0]
+#	   		$top = Join-Path $path $top
  	   
-	   		Write-Host "Dangling shortcut '$_' found found among startmenu entries" -ForegroundColor Yellow
-			[string]$answer = Read-Host-Prefill "Remove containing folder '$top'? [Y/n]: " -Prefills 'y', 'n' -ForegroundColor Yellow
-	   		if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
-				Remove-Item -Path "\\?\$($top)" -Recurse -Force
-			}
-		} else {
-           		Write-Host "Dangling shortcut '$_' found among startmenu entries" -ForegroundColor Yellow
-			[string]$answer = Read-Host-Prefill "Remove shortcut '$_'? [Y/n]: " -Prefills 'y', 'n' -ForegroundColor Yellow
-			if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
-				Remove-Item -Path "\\?\$($_.FullName)" -Force
-			}
-		}
-    	}
-    }
-}
+#	   		Write-Host "Dangling shortcut '$_' found found among startmenu entries" -ForegroundColor Yellow
+#			[string]$answer = Read-Host-Prefill "Remove containing folder '$top'? [Y/n]: " -Prefills 'y', 'n' -ForegroundColor Yellow
+#	   		if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
+#				Remove-Item -Path "\\?\$($top)" -Recurse -Force
+#			}
+#		} else {
+#          		Write-Host "Dangling shortcut '$_' found among startmenu entries" -ForegroundColor Yellow
+#			[string]$answer = Read-Host-Prefill "Remove shortcut '$_'? [Y/n]: " -Prefills 'y', 'n' -ForegroundColor Yellow
+#			if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
+#				Remove-Item -Path "\\?\$($_.FullName)" -Force
+#			}
+#		}
+#    	}
+#    }
+# }
 
 
 Write-Host "Cleaning up Desktop shortcuts" -ForegroundColor Cyan
@@ -52,11 +52,11 @@ Get-ChildItem -Path "$desktop" -Filter "*.lnk" -Recurse -ErrorAction SilentlyCon
 	# Checking a target that's actually a url is hard to check since TargetPath is just empty, so we just check the name and call it a day
     	if ( -not ($_.Name -eq 'Smartschool.lnk') -and ([string]::IsNullOrWhiteSpace($target) -or (-not (Test-Path $target)))) {	
 		
-	        Write-Host "Dangling shortcut '$_' found on Desktop" -ForegroundColor Yellow
-		[string]$answer = Read-Host-Prefill "Remove shortcut '$_'? [Y/n]: " -Prefills 'y', 'n' -ForegroundColor Yellow
-		if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
+	#       Write-Host "Dangling shortcut '$_' found on Desktop" -ForegroundColor Yellow
+	#	[string]$answer = Read-Host-Prefill "Remove shortcut '$_'? [Y/n]: " -Prefills 'y', 'n' -ForegroundColor Yellow
+	#	if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
 			Remove-Item -Path "\\?\$($_.FullName)" -Force
-		}
+	#	}
     	}
     }
 }
@@ -69,11 +69,11 @@ Get-ChildItem -Path "$desktop_public" -Filter "*.lnk" -Recurse -ErrorAction Sile
 	
     	if ( -not ($_.Name -eq 'Smartschool.lnk') -and ([string]::IsNullOrWhiteSpace($target) -or (-not (Test-Path $target)))) {	
 		
-	        Write-Host "Dangling shortcut '$_' found on the public Desktop" -ForegroundColor Yellow
-		[string]$answer = Read-Host-Prefill "Remove shortcut '$_'? [Y/n]: " -Prefills 'y', 'n' -ForegroundColor Yellow
-		if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
+	#        Write-Host "Dangling shortcut '$_' found on the public Desktop" -ForegroundColor Yellow
+	#	[string]$answer = Read-Host-Prefill "Remove shortcut '$_'? [Y/n]: " -Prefills 'y', 'n' -ForegroundColor Yellow
+	#	if ([string]::IsNullOrWhiteSpace($answer) -or $answer -eq 'y' -or $answer -eq 'Y'){
 			Remove-Item -Path "\\?\$($_.FullName)" -Force
-		}
+	#	}
     	}
     }
 }
@@ -172,4 +172,4 @@ Get-ChildItem -Path "C:\Users\$env:USERNAME\Videos\" | ForEach-Object {
     Remove-Item -Recurse -Force "\\?\$($_.FullName)" -ErrorAction SilentlyContinue 
 }
 
-cmd.exe /c 'pause'
+# cmd.exe /c 'pause'
