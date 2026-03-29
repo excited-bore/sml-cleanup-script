@@ -1,3 +1,5 @@
+# https://www.scriptrunner.com/blog-admin-architect/detecting-laptop-battery-wear
+
 $designCap = Get-WmiObject -Class 'BatteryStaticData' -Namespace 'root\wmi' | 
 Group-Object -Property InstanceName -AsHashTable -AsString
     
@@ -8,4 +10,3 @@ ForEach-Object {
 	$_.Percent = [Math]::Round( ( $_.FullChargedCapacity * 100 / $_.DesignedCapacity), 2)
 	$_
 }
-cmd.exe /c 'pause'
