@@ -84,9 +84,9 @@ Write-Host "Removing unknown files and folders from 'C:\'" -ForegroundColor Yell
 
 # Don't remove 'C:\SWSetup' if it's a HP machine
 if ( ( $manufacturer -eq 'HP' ) -or ( $manufacturer -eq 'Hewlett-Packard' )){
-    $excludes = @('PerfLogs', 'Program Files', 'Program Files (x86)', 'Users', 'Windows', 'SWSetup')
+    $excludes = @('PerfLogs', 'Program Files', 'Program Files (x86)', 'Users', 'Windows', 'SWSetup', 'sml-cleanup-script')
 } else {
-    $excludes = @('PerfLogs', 'Program Files', 'Program Files (x86)', 'Users', 'Windows')
+    $excludes = @('PerfLogs', 'Program Files', 'Program Files (x86)', 'Users', 'Windows', 'sml-cleanup-script')
 }
 Get-ChildItem -Path 'C:\' | Where-Object { $_.Name -notin $excludes } | ForEach-Object {
     Remove-Item -Recurse -Force "\\?\$($_.FullName)" -ErrorAction SilentlyContinue
@@ -94,7 +94,7 @@ Get-ChildItem -Path 'C:\' | Where-Object { $_.Name -notin $excludes } | ForEach-
 
 
 Write-Host "Removing unknown users from 'C:\Users'" -ForegroundColor Yellow
-$excludes = @('LaptopSML', 'Public', "$env:USERNAME")
+$excludes = @('LaptopSML', 'Public', "$env:USERNAME", 'leerlingsjp')
 Get-ChildItem -Path 'C:\Users\' | Where-Object { $_.Name -notin $excludes } | ForEach-Object {
     Remove-Item -Recurse -Force "\\?\$($_.FullName)" -ErrorAction SilentlyContinue
 }
