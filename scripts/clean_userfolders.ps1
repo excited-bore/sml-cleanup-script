@@ -94,7 +94,7 @@ Get-ChildItem -Path 'C:\' | Where-Object { $_.Name -notin $excludes } | ForEach-
 
 
 Write-Host "Removing unknown users from 'C:\Users'" -ForegroundColor Yellow
-$excludes = @('LaptopSML', 'Public', "$env:USERNAME", 'leerlingsjp')
+$excludes = @('LaptopSML', 'Public', "$env:USERNAME", 'leerlingsjp@sml.be', 'leerlingsjp')
 Get-ChildItem -Path 'C:\Users\' | Where-Object { $_.Name -notin $excludes } | ForEach-Object {
     Remove-Item -Recurse -Force "\\?\$($_.FullName)" -ErrorAction SilentlyContinue
 }
