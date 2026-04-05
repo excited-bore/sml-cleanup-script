@@ -98,10 +98,15 @@ $excludes = @('LaptopSML', 'Public', "$env:USERNAME", 'leerlingsjp@sml.be', 'lee
 # Stop onedrive first
 Stop-Process -Name "OneDrive" -Force -ErrorAction SilentlyContinue
 Get-ChildItem -Path 'C:\Users\' | Where-Object { $_.Name -notin $excludes } | ForEach-Object {
-    # Take ownership and give administrators full control, then remove
-    takeown /F "\\?\$($_.FullName)" /R /D Y
-    icacls "\\?\$($_.FullName)" /grant "Administrators:F" /T /C
-    Remove-Item -Recurse -Force "\\?\$($_.FullName)" -ErrorAction SilentlyContinue
+    try{
+	# https://powershellcommands.com/powershell-remove-user-profile
+        Get-WmiObject -Class Win32_UserProfile | Where-Object { $_.LocalPath -like "$_.FullName" } | Remove-WmiObject
+    } catch {
+    	# Take ownership and give administrators full control, then remove
+    	takeown /F "\\?\$($_.FullName)" /R /D Y
+    	icacls "\\?\$($_.FullName)" /grant "Administrators:F" /T /C
+    	Remove-Item -Recurse -Force "\\?\$($_.FullName)" -ErrorAction SilentlyContinue
+    }
 }
 
 Write-Host "Removing unknown files and folders from 'C:\Users\$env:USERNAME'" -ForegroundColor Yellow
