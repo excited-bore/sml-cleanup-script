@@ -95,7 +95,12 @@ Get-ChildItem -Path 'C:\' | Where-Object { $_.Name -notin $excludes } | ForEach-
 
 Write-Host "Removing unknown users from 'C:\Users'" -ForegroundColor Yellow
 $excludes = @('LaptopSML', 'Public', "$env:USERNAME", 'leerlingsjp@sml.be', 'leerlingsjp')
+# Stop onedrive first
+Stop-Process -Name "OneDrive" -Force -ErrorAction SilentlyContinue
 Get-ChildItem -Path 'C:\Users\' | Where-Object { $_.Name -notin $excludes } | ForEach-Object {
+    # Take ownership and give administrators full control, then remove
+    takeown /F "\\?\$($_.FullName)" /R /D Y
+    icacls "\\?\$($_.FullName)" /grant "Administrators:F" /T /C
     Remove-Item -Recurse -Force "\\?\$($_.FullName)" -ErrorAction SilentlyContinue
 }
 
